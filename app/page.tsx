@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabase";
+import MotionCourseCard from "../components/MotionCourseCard";
 import { Code, Palette, Shield, Monitor, Laptop, FileCode } from "lucide-react";
 
 const icons: any = {
@@ -45,7 +46,7 @@ export default async function Home() {
               const Icon = icons[course.icon_name] || Code;
 
               return (
-                <article key={course.id} className="rounded-3xl border border-zinc-800 bg-zinc-900 p-5">
+                <MotionCourseCard key={course.id}>
                   <Icon className="mb-4 h-7 w-7 text-green-400" />
 
                   <h3 className="font-semibold">{course.title}</h3>
@@ -58,7 +59,7 @@ export default async function Home() {
                       style={{ width: `${course.progress}%` }}
                     />
                   </div>
-                </article>
+                </MotionCourseCard>
               );
             })}
           </section>
