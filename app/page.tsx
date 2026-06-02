@@ -36,7 +36,7 @@ export default async function Home() {
 
         <section className="p-6">
           <article className="rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 to-black p-8">
-            <h1 className="text-4xl font-bold">Welcome back, Add Onn 👋</h1>
+            <h1 className="text-4xl font-bold">Welcome back, Archa 👋</h1>
             <p className="mt-3 text-zinc-400">Learning Streak: 12 Days 🔥</p>
           </article>
 
