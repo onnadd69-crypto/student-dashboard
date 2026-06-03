@@ -1,7 +1,13 @@
 import { supabase } from "../lib/supabase";
 import MotionCourseCard from "../components/MotionCourseCard";
 import { Code, Palette, Shield, Monitor, Laptop, FileCode } from "lucide-react";
-
+interface Course {
+  id: string;
+  title: string;
+  progress: number;
+  icon_name: string;
+  created_at: string;
+}
 const icons: any = {
   Code,
   Palette,
@@ -17,9 +23,14 @@ export default async function Home() {
     .select("*")
     .order("created_at", { ascending: false })
     .limit(4);
+    const typedCourses = courses as Course[] | null;
 
   if (error) {
-    return <main className="min-h-screen bg-black text-white p-8">Failed to load courses</main>;
+    return (
+      <main className="min-h-screen bg-black p-8 text-white">
+        Failed to load courses
+      </main>
+    );
   }
 
   return (
@@ -36,22 +47,31 @@ export default async function Home() {
         </nav>
 
         <section className="p-6">
-          <article className="rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 to-black p-8">
-            <h1 className="text-4xl font-bold">Welcome back, Archa 👋</h1>
-            <p className="mt-3 text-zinc-400">Learning Streak: 12 Days 🔥</p>
-          </article>
+          <section className="grid gap-5 xl:grid-cols-3">
+            <article className="rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 to-black p-8 xl:col-span-2">
+              <h1 className="text-4xl font-bold">Welcome back, Archa 👋</h1>
+              <p className="mt-3 text-zinc-400">Learning Streak: 12 Days 🔥</p>
+            </article>
 
-          <section className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {courses?.map((course) => {
+            <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+              <h3 className="font-semibold">Activity Graph</h3>
+              <div className="mt-5 grid grid-cols-7 gap-2">
+                {Array.from({ length: 35 }).map((_, i) => (
+                  <span key={i} className="h-5 rounded bg-green-500/70" />
+                ))}
+              </div>
+            </article>
+
+            {typedCourses?.map((course) => {
               const Icon = icons[course.icon_name] || Code;
 
               return (
                 <MotionCourseCard key={course.id}>
                   <Icon className="mb-4 h-7 w-7 text-green-400" />
-
                   <h3 className="font-semibold">{course.title}</h3>
-
-                  <p className="mt-2 text-sm text-zinc-400">{course.progress}% completed</p>
+                  <p className="mt-2 text-sm text-zinc-400">
+                    {course.progress}% completed
+                  </p>
 
                   <div className="mt-4 h-2 rounded-full bg-zinc-700">
                     <div
@@ -63,15 +83,6 @@ export default async function Home() {
               );
             })}
           </section>
-
-          <article className="mt-6 rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
-            <h3 className="font-semibold">Activity Graph</h3>
-            <div className="mt-5 grid grid-cols-7 gap-2">
-              {Array.from({ length: 35 }).map((_, i) => (
-                <span key={i} className="h-5 rounded bg-green-500/70" />
-              ))}
-            </div>
-          </article>
         </section>
       </section>
     </main>
